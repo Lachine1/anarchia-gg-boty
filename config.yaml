@@ -1,0 +1,52 @@
+# ============================================================================
+# KONFIGURACJA BOTÓW ANARCHII
+# ============================================================================
+
+# Autoryzacja
+# ⚠️ ZMIEŃ HASŁO
+auth:
+  password: Zmień to na jakieś hasło!
+
+# Discord Webhook
+discord:
+  enabled: true # Włącz/wyłącz powiadomienia Discord
+  webhook_url: Twój webhook # Wstaw swój webhook URL
+  bot_name: Odpalone Boty # Nazwa bota w Discord
+  notify_kicks: true # Powiadom gdy bot zostanie wyrzucony
+
+# Opóźnienia (w milisekundach)
+delays:
+  connection: 5200 # Opóźnienie między łączeniem botów
+  spawn_command: 5100 # Opóźnienie po wykryciu SPAWN przed komendą (5.1s)
+  spawn_retry: 8000 # Opóźnienie przed ponowieniem /spawn jeśli brak wykrycia
+  afk_retry: 5000 # Opóźnienie przed ponowieniem /afk
+  tpa_timeout: 60000 # Timeout dla TPA (60s)
+  stats_display_console: 60000 # Wyświetlanie statystyk w konsoli (60s)
+  stats_display_discord: 300000 # Wysyłanie statystyk na Discord (5 min)
+  bot_timeout: 120000 # Timeout dołączenia botów (zmień jeśli masz słaby net)
+  connect_timeout: 120000 # Timeout botów (zmień jeśli masz słaby net)
+# Reconnect
+reconnect:
+  max_attempts: 50 # Maksymalna liczba prób reconnectu
+
+# Zachowanie
+behavior:
+  drop_distance: 5 # Odległość w blokach do wyrzucania czeków
+  min_money_drop: 1000 # Minimalna kasa do wyrzucenia ($)
+  estimated_earnings: false # true = zarobki ze scoreboardu, false = z tytułów
+  earnings_interval: 5 # Co ile minut jest dawany hajs (do obliczeń)
+
+# Logowanie
+logging:
+  level: 1 # 1 = podstawowe | 2 = szczegółowe | 3 = debug
+  colors: true # Włącz kolory w konsoli
+
+# Nicki botów
+# 👉 (maksymalnie 45)
+# 👉 (to jest limit na anarchii i nie możemy zmienić)
+bots:
+  accounts:
+    - Nicki botów, minus musi tak zostać
+    - przykład
+    - przykład 2
+    # Dodaj więcej botów tutaj...
