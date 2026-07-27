@@ -1,5 +1,5 @@
 # Anarchia.gg Boty
-
+> # NIE DZIALAJA v4 wkrotce
 Manager wielu kont Minecraft na serwerze **anarchia.gg** z terminalowym interfejsem (TUI) i integracją Discord. Stworzony dla operatorów, którzy chcą obsługiwać do **45 botów** jednocześnie z jednego komputera lub VPS.
 
 > Projekt jest **open source** na licencji **AGPL v3 + Commons Clause**.
