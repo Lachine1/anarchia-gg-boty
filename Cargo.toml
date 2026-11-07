@@ -1,0 +1,50 @@
+[package]
+name = "anarchia-boty"
+version = "2.0.0"
+edition = "2021"
+license = "AGPL-3.0-only"
+authors = ["lachine"]
+description = "Boty AFK dla anarchia.gg"
+
+[dependencies]
+azalea = { path = "vendor/azalea/azalea", default-features = false, features = ["serde"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "time", "sync", "io-util", "io-std", "process", "signal"] }
+anyhow = "1"
+bevy_ecs = { version = "0.15", default-features = false }
+bevy_app = "0.15"
+parking_lot = { version = "0.12", features = ["deadlock_detection"] }
+hickory-resolver = "0.24"
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "tokio", "query"] }
+tokio-stream = { version = "0.1", features = ["sync"] }
+futures-util = { version = "0.3", default-features = false }
+socks5-impl = { version = "0.6", default-features = false, features = ["client"] }
+flate2 = "1"
+
+[profile.release]
+opt-level = "s"
+lto = "thin"
+codegen-units = 4
+strip = true
+panic = "unwind"
+
+[profile.dev]
+opt-level = 1
+[profile.dev.package."*"]
+opt-level = 2
+
+[workspace]
+exclude = ["vendor"]
+
+[patch.crates-io]
+webview2-com-sys = { path = "vendor/webview2-com-sys" }
+simdnbt = { path = "vendor/simdnbt" }
+
+[dev-dependencies]
+simdnbt = "0.6"
+
+[target.'cfg(windows)'.dependencies]
+wry = { version = "0.51", default-features = false, features = ["os-webview"] }
+tao = { version = "0.33", default-features = false, features = ["rwh_06"] }

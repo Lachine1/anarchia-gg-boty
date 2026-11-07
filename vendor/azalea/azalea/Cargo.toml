@@ -1,0 +1,66 @@
+[package]
+name = "azalea"
+description = "A framework for creating Minecraft bots."
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.release]
+pre-release-replacements = [
+  { file = "README.md", search = "`azalea = \"[a-z0-9\\.-]+\"`", replace = "`azalea = \"{{version}}\"`" },
+]
+
+[dependencies]
+anyhow = { workspace = true }
+#async-trait = { workspace = true }
+azalea-auth = { version = "0.11.0+mc1.21.4", path = "../azalea-auth" }
+azalea-block = { version = "0.11.0+mc1.21.4", path = "../azalea-block" }
+azalea-brigadier = { version = "0.11.0+mc1.21.4", path = "../azalea-brigadier" }
+azalea-buf = { version = "0.11.0+mc1.21.4", path = "../azalea-buf" }
+azalea-chat = { version = "0.11.0+mc1.21.4", path = "../azalea-chat" }
+azalea-client = { version = "0.11.0+mc1.21.4", path = "../azalea-client", default-features = false }
+azalea-core = { version = "0.11.0+mc1.21.4", path = "../azalea-core" }
+azalea-entity = { version = "0.11.0+mc1.21.4", path = "../azalea-entity" }
+azalea-inventory = { version = "0.11.0+mc1.21.4", path = "../azalea-inventory" }
+azalea-physics = { version = "0.11.0+mc1.21.4", path = "../azalea-physics" }
+azalea-protocol = { version = "0.11.0+mc1.21.4", path = "../azalea-protocol" }
+azalea-registry = { version = "0.11.0+mc1.21.4", path = "../azalea-registry" }
+azalea-world = { version = "0.11.0+mc1.21.4", path = "../azalea-world" }
+bevy_app = { workspace = true }
+bevy_ecs = { workspace = true }
+bevy_log = { workspace = true }
+bevy_tasks = { workspace = true, features = ["multi_threaded"] }
+#bevy_time = { workspace = true }
+derive_more = { workspace = true, features = ["deref", "deref_mut"] }
+futures = { workspace = true }
+futures-lite = { workspace = true }
+nohash-hasher = { workspace = true }
+num-traits = { workspace = true }
+parking_lot = { workspace = true }
+priority-queue = { workspace = true }
+rustc-hash = { workspace = true }
+serde = { workspace = true, optional = true }
+thiserror = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+
+[dev-dependencies]
+criterion = { workspace = true }
+parking_lot = { workspace = true, features = ["deadlock_detection"] }
+rand = { workspace = true }
+
+[features]
+default = ["log", "serde"]
+# enables bevy_log::LogPlugin by default
+log = ["azalea-client/log"]
+serde = ["dep:serde"]
+
+[[bench]]
+name = "pathfinder"
+harness = false
+
+[[bench]]
+name = "physics"
+harness = false

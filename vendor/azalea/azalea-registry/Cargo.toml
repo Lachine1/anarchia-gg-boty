@@ -1,0 +1,17 @@
+[package]
+name = "azalea-registry"
+description = "Use Minecraft's registries."
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+[dependencies]
+azalea-buf = { path = "../azalea-buf", version = "0.11.0+mc1.21.4" }
+azalea-registry-macros = { path = "./azalea-registry-macros", version = "0.11.0+mc1.21.4" }
+serde = { workspace = true, optional = true }
+simdnbt = { workspace = true }
+
+[features]
+serde = ["azalea-registry-macros/serde", "dep:serde"]
+default = ["serde"]
