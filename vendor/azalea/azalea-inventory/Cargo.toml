@@ -1,0 +1,20 @@
+[package]
+name = "azalea-inventory"
+description = "Representations of various inventory data structures in Minecraft."
+version = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+[dependencies]
+tracing = { workspace = true }
+azalea-buf = { path = "../azalea-buf", version = "0.11.0+mc1.21.4" }
+azalea-chat = { path = "../azalea-chat", version = "0.11.0", features = [
+    "azalea-buf",
+] }
+azalea-core = { path = "../azalea-core", version = "0.11.0+mc1.21.4" }
+azalea-inventory-macros = { path = "./azalea-inventory-macros", version = "0.11.0+mc1.21.4" }
+azalea-registry = { path = "../azalea-registry", version = "0.11.0+mc1.21.4" }
+
+simdnbt = { workspace = true }
+uuid = { workspace = true }

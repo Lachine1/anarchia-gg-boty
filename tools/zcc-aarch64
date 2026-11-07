@@ -1,0 +1,4 @@
+#!/bin/bash
+args=()
+for a in "$@"; do case "$a" in --target=*|-lgcc_s) ;; *) args+=("$a");; esac; done
+exec /home/lachine/tools/zigwhl/ziglang/zig cc -target aarch64-linux-musl "${args[@]}"

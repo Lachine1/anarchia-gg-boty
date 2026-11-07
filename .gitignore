@@ -1,0 +1,8 @@
+bad/
+build-*.log
+data/
+*.out
+/target
+target/
+testdata/
+build.log
