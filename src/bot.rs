@@ -541,6 +541,7 @@ fn on_chat(bot: &Client, st: &State, t: &str) {
             let mut r = st.rt.lock();
             r.reached_afk = true;
             r.afk_tries = 0;
+            r.last_reason.clear(); // stale disconnect reason must not linger on a healthy bot
         }
         st.log(1, "AFK — zarabia");
         return;

@@ -6,143 +6,305 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>anarchia-boty</title>
 <style>
-:root{--bg:#0e0f11;--p:#16181b;--p2:#1c1f23;--b:#262a2f;--b2:#33383e;--t:#e6e8ea;--m:#8b939c;--d:#5d646c;--g:#4ec27a;--y:#d9b44a;--r:#e0605a;--a:#6aa8ff}
+:root{
+  --bg:#0b0c0e;--s1:#111316;--s2:#16191d;--s3:#1c2025;--ln:#23272d;--ln2:#2e333a;
+  --tx:#e8eaed;--mu:#a0a7b0;--di:#6f7680;
+  --ac:#5b9cff;--ok:#3fb871;--wa:#d9a841;--er:#e5574f;
+  --r:6px;--mono:ui-monospace,SFMono-Regular,"Cascadia Mono",Consolas,monospace;
+}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--t);font:13px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-button,input,textarea,select{font:inherit;color:inherit}
-.app{display:grid;grid-template-rows:auto auto 1fr;height:100%}
-header{display:flex;align-items:center;gap:16px;padding:10px 16px;border-bottom:1px solid var(--b)}
-header h1{font-size:14px;font-weight:600;margin:0;letter-spacing:.2px}
-header .sp{flex:1}
-.meta{color:var(--m);font-variant-numeric:tabular-nums;display:flex;gap:14px;white-space:nowrap}
-.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border-bottom:1px solid var(--b)}
-.stat{padding:12px 16px;border-right:1px solid var(--b)}
-.stat:last-child{border-right:0}
-.stat .k{color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.6px}
-.stat .v{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:2px}
-.stat .s{color:var(--d);font-size:11px;font-variant-numeric:tabular-nums}
-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;min-height:0}
-.left{display:grid;grid-template-rows:auto 1fr;min-height:0;border-right:1px solid var(--b)}
-.right{display:grid;grid-template-rows:auto 1fr;min-height:0}
-.tabs{display:flex;border-bottom:1px solid var(--b)}
-.tab{padding:9px 14px;cursor:pointer;color:var(--m);border-right:1px solid var(--b);user-select:none}
-.tab:hover{color:var(--t)}
-.tab.on{color:var(--t);background:var(--p)}
-.bar{display:flex;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--b);flex-wrap:wrap}
-.bar .sp{flex:1}
-.btn{background:var(--p2);border:1px solid var(--b2);border-radius:5px;padding:5px 10px;cursor:pointer;white-space:nowrap}
-.btn:hover{filter:brightness(1.25)}
-.btn:disabled{opacity:.45;cursor:default;filter:none}
-.btn.pri{background:#24364f;border-color:#34507a}
-.btn.dng{background:#3a2120;border-color:#5a2f2d}
-input[type=text],input[type=password],input[type=number],textarea,select{background:var(--bg);border:1px solid var(--b2);border-radius:5px;padding:5px 8px;outline:none}
-input:focus,textarea:focus{border-color:#4a5560}
-textarea{width:100%;resize:vertical;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-.scroll{overflow:auto;min-height:0}
-table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-th{position:sticky;top:0;background:var(--p);text-align:left;font-weight:500;color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.5px;padding:7px 10px;border-bottom:1px solid var(--b);cursor:pointer;user-select:none;white-space:nowrap}
-td{padding:6px 10px;border-bottom:1px solid #1d2024;white-space:nowrap}
-tr:hover td{background:#141619}
-tr.sel td{background:#172131}
-td.n{font-weight:500}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:13px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+::selection{background:#2b4c7e}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:#262a30;border:3px solid transparent;background-clip:padding-box;border-radius:8px}::-webkit-scrollbar-track{background:transparent}
+.num{font-variant-numeric:tabular-nums}
+[hidden]{display:none!important}
+
+.app{display:grid;grid-template-columns:208px minmax(0,1fr);height:100%}
+nav{background:var(--s1);border-right:1px solid var(--ln);display:flex;flex-direction:column;min-height:0}
+.brand{padding:16px 16px 14px;border-bottom:1px solid var(--ln)}
+.brand b{display:block;font-size:14px;font-weight:600}
+.brand span{color:var(--di);font-size:12px}
+.nav{padding:8px;display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--r);color:var(--mu);cursor:pointer;user-select:none;white-space:nowrap}
+.nav a svg{width:16px;height:16px;flex:none}
+.nav a:hover{background:var(--s2);color:var(--tx)}
+.nav a.on{background:var(--s3);color:var(--tx)}
+.nav a .cnt{margin-left:auto;color:var(--di);font-size:12px}
+.side-foot{margin-top:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
+.warn{border:1px solid #4d3d1c;background:#1d1910;color:#e6d09a;border-radius:var(--r);padding:10px 11px;font-size:12px;line-height:1.45}
+.warn a{color:#f6e6b8;text-decoration:underline;cursor:pointer}
+.sys{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 10px;font-size:12px;color:var(--di);padding:0 4px}
+.sys b{font-weight:400;color:var(--mu);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+main{--g:22px;display:grid;grid-template-rows:minmax(0,max-content) auto minmax(var(--dock,220px),1fr);min-height:0;min-width:0}
+.view{display:none;min-height:0;overflow:auto;padding:20px var(--g) 18px}
+.view.on{display:flex;flex-direction:column;gap:16px}
+.view h2{margin:0;font-size:16px;font-weight:600}
+.view .sub{color:var(--mu);margin-top:2px}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{background:var(--s1);border:1px solid var(--ln);border-radius:8px;padding:12px 14px;min-width:0}
+.stat .k{color:var(--mu);font-size:12px}
+.stat .v{font-size:24px;font-weight:600;margin-top:2px;letter-spacing:-.3px;white-space:nowrap}
+.stat .v small{font-size:14px;font-weight:500;color:var(--di);margin-left:4px;letter-spacing:0}
+.stat .s{color:var(--di);font-size:12px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat.lead .v.pos{color:var(--ok)}
+.zero{color:var(--di)!important}
+
+.card{background:var(--s1);border:1px solid var(--ln);border-radius:8px;display:flex;flex-direction:column;min-height:0}
+.card.grow{flex:none;min-height:0}
+.tb{display:flex;align-items:center;gap:8px 8px;padding:10px 12px;border-bottom:1px solid var(--ln);flex-wrap:wrap;min-width:0}
+.acts{display:flex;align-items:center;gap:8px;margin-left:auto;flex:none}
+.tb .sp{display:none}
+.search{position:relative;width:180px;flex:none}
+.search input[type=text]{width:100%;padding-left:30px}
+.search svg{position:absolute;left:9px;top:50%;width:13px;height:13px;transform:translateY(-50%);color:var(--di)}
+.selc{flex:1 1 0;color:var(--di);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;padding-left:4px}
+.selc.n{color:var(--mu)}
+.sep{width:1px;height:20px;background:var(--ln2);margin:0 2px}
+
+.btn{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 11px;background:var(--s3);border:1px solid #363c44;border-radius:var(--r);cursor:pointer;white-space:nowrap;transition:filter .12s}
+.btn:hover:not(:disabled){filter:brightness(1.3)}
+.btn:disabled{opacity:1;cursor:default;background:transparent;border-color:var(--ln);color:var(--di)}
+.btn.dng:disabled{color:#6e4a48;border-color:#2e2020;background:transparent}
+.btn.pri{background:var(--ac);border-color:var(--ac);color:#07101e;font-weight:600}
+.btn.pri:disabled{background:transparent;border-color:var(--ln);color:var(--di);font-weight:500}
+.btn:disabled{filter:none}
+.btn.dng{color:#f3a19b;border-color:#5c2f2c;background:#1e1313}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--mu)}
+.btn.ghost:hover:not(:disabled){color:var(--tx);filter:none;background:var(--s2)}
+.btn.sm{height:24px;padding:0 8px;font-size:12px}
+
+input[type=text],input[type=password],input[type=number],textarea{background:var(--bg);border:1px solid var(--ln2);border-radius:var(--r);padding:0 10px;height:30px;outline:none;min-width:0}
+textarea{height:auto;padding:8px 10px;resize:vertical;font-family:var(--mono);font-size:12px;line-height:1.6;width:100%}
+input:focus,textarea:focus{border-color:#3d5170}
+input::placeholder,textarea::placeholder{color:#7d848e}
+input[type=number]{-moz-appearance:textfield}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none}
+
+.cb{appearance:none;-webkit-appearance:none;width:15px;height:15px;margin:0;border:1px solid #3a4048;border-radius:4px;background:var(--bg);cursor:pointer;vertical-align:-3px;flex:none}
+.cb:hover{border-color:#566070}
+.cb:checked{background:var(--ac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.2l3 3 6-6.4' fill='none' stroke='%2307101e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;border-color:var(--ac)}
+.cb:indeterminate{background:var(--ac) linear-gradient(#07101e,#07101e) center/8px 2px no-repeat;border-color:var(--ac)}
+
+.tw{overflow:auto;min-height:0;display:flex;flex-direction:column}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{position:sticky;top:0;z-index:1;background:var(--s1);text-align:left;font-weight:500;color:var(--mu);font-size:12px;padding:8px 12px;border-bottom:1px solid var(--ln);white-space:nowrap;user-select:none;overflow:hidden;text-overflow:ellipsis}
+th[data-k]{cursor:pointer}th[data-k]:hover{color:var(--tx)}
+th .ar{display:inline-block;width:12px;margin:0 2px;color:var(--ac);font-weight:600}
+td{padding:0 12px;height:38px;border-bottom:1px solid #1a1d21;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+tbody tr:hover td{background:#14171a}
+tbody tr.sel td{background:#131b27}
 .r{text-align:right}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:1px;background:var(--d)}
-.dot.g{background:var(--g)}.dot.y{background:var(--y)}.dot.r{background:var(--r)}
-.mut{color:var(--m)}.dim{color:var(--d)}
-.cb{width:14px;height:14px;accent-color:#5b8bd0;margin:0;vertical-align:-2px}
-.log{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px;padding:6px 0}
-.log div{padding:1px 12px;white-space:pre-wrap;word-break:break-word}
-.log .w{color:var(--a)}
-.log .t{color:var(--d)}
-.log .l1{color:var(--t)}.log .l2{color:#b8bec4}.log .l3{color:var(--m)}
-.pane{padding:12px;display:none;overflow:auto}
-.pane.on{display:block}
-.field{margin-bottom:12px}
-.field label{display:block;color:var(--m);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.field input[type=text],.field input[type=password],.field input[type=number]{width:100%}
-.row{display:flex;gap:8px;align-items:center}
-.hint{color:var(--d);font-size:11px;margin-top:4px}
-.empty{padding:40px;text-align:center;color:var(--m)}
-.toast{position:fixed;right:16px;bottom:16px;background:var(--p2);border:1px solid var(--b2);border-radius:6px;padding:9px 14px;opacity:0;transform:translateY(6px);transition:opacity .15s,transform .15s;pointer-events:none}
-.toast.on{opacity:1;transform:none}
-.notice{padding:9px 16px;border-bottom:1px solid #5a4a22;background:#2a2414;color:#e8d49a}
-.notice[hidden]{display:none}
-.notice a{color:inherit;text-decoration:underline;cursor:pointer}
-.reason{max-width:280px;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:bottom}
-@media (max-width:900px){main{grid-template-columns:1fr}.right{border-top:1px solid var(--b);height:45vh}.left{border-right:0}.stats{grid-template-columns:repeat(3,1fr)}.stat:nth-child(3){border-right:0}.meta .hide-s{display:none}}
+td.nm{font-weight:500}
+.st{display:inline-flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;flex:none;background:var(--di)}
+.ok .dot{background:var(--ok)}.wa .dot{background:var(--wa)}.er .dot{background:var(--er)}.off .dot{background:transparent;box-shadow:inset 0 0 0 1.5px var(--di)}
+.wa{color:#e8cf91}.er{color:#f3a19b}.off,.idle{color:var(--mu)}
+td.info{color:var(--mu)}td.info.er{color:#e7908a}
+.mu{color:var(--mu)}.di{color:var(--di)}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--mu);padding:36px 20px;text-align:center}
+.empty b{color:var(--tx);font-size:14px;font-weight:600}
+
+.handle{height:5px;cursor:ns-resize;border-top:1px solid var(--ln);background:var(--s1)}
+.handle:hover,.handle.drag{background:#1d222a}
+.dock{display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:var(--s1);min-height:0}
+.dh{display:flex;align-items:center;gap:8px;height:38px;padding:0 var(--g);border-bottom:1px solid var(--ln)}
+.dh b{font-weight:600;font-size:12px}
+.dh .who{color:#8fb4ea;font-size:12px}
+.seg{display:inline-flex;border:1px solid var(--ln2);border-radius:var(--r);overflow:hidden;margin-left:6px}
+.seg button{background:transparent;border:0;height:22px;padding:0 10px;color:var(--mu);cursor:pointer;font-size:12px}
+.seg button+button{border-left:1px solid var(--ln2)}
+.seg button.on{background:var(--s3);color:var(--tx)}
+.log{overflow:auto;font-family:var(--mono);font-size:12px;line-height:1.6;padding:8px 0;min-height:0;-webkit--webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24px);mask-image:linear-gradient(to bottom,transparent 0,#000 24px)}
+.ln{display:grid;grid-template-columns:62px 100px minmax(0,1fr);gap:0 12px;padding:1px var(--g)}
+.ln:hover{background:#14171a}
+.ln .t{color:var(--di)}
+.ln .w{color:#7fa3d6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ln .m{white-space:pre-wrap;word-break:break-word;color:#c3c9d0}
+.ln.c .m{color:var(--di)}.ln.k .m{color:var(--tx)}.ln.g .m{color:var(--ok)}.ln.e .m{color:#f09a94}
+.lempty{color:var(--di);padding:6px var(--g);font-family:system-ui,sans-serif}
+.cmd{display:flex;gap:8px;padding:9px var(--g);border-top:1px solid var(--ln)}
+.cmd input{flex:1;font-family:var(--mono);font-size:12px}
+
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.sec{background:var(--s1);border:1px solid var(--ln);border-radius:8px;padding:16px}
+.sec h3{margin:0 0 12px;font-size:13px;font-weight:600}
+.sec h3+.f{margin-top:0}
+.f{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.f:last-child{margin-bottom:0}
+.f label{color:var(--mu);font-size:12px}
+.f input[type=text],.f input[type=password],.f input[type=number]{width:100%}
+.hint{color:var(--di);font-size:12px;line-height:1.45}
+.chk{display:flex!important;align-items:center;gap:9px;cursor:pointer;user-select:none;color:var(--tx)!important;font-size:13px!important}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.steps{margin:0;padding-left:18px;color:var(--mu);line-height:1.8}
+.pl{display:flex;flex-direction:column;gap:12px}
+.pi{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:baseline}
+.pi .ip{font-family:var(--mono);font-size:12px}
+.pi .c{color:var(--mu);font-size:12px}
+.pi .px{grid-column:1/-1;color:var(--di);font-family:var(--mono);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar{grid-column:1/-1;height:4px;background:var(--s3);border-radius:2px;overflow:hidden;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--ac)}.bar i.full{background:var(--wa)}
+
+.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,8px);background:var(--s3);border:1px solid var(--ln2);border-radius:var(--r);padding:8px 14px;opacity:0;transition:opacity .15s,transform .15s;pointer-events:none;z-index:9;max-width:80vw}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.bad{border-color:#5a2f2d;color:#f3b0ab}
+
+@media (max-width:1060px){.c-ip{display:none}}
+@media (max-width:940px){.stats{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.c-up,.c-info{display:none}}
+@media (max-width:880px){.c-keys{display:none}table{table-layout:auto}col{width:auto!important}col:first-child{width:44px!important}}
+@media (max-height:720px){main{--dock:170px}.stat{padding:10px 12px}.stat .v{font-size:21px}}
+@media (max-width:720px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+  nav{flex-direction:row;align-items:center;border-right:0;border-bottom:1px solid var(--ln);overflow-x:auto}
+  .brand{border:0;padding:10px 12px}.brand span{display:none}
+  .nav{flex-direction:row;padding:6px}.nav a .cnt,.sys{display:none}
+  .side-foot{margin:0;padding:6px}.warn{padding:5px 8px;white-space:nowrap}
+  .view{padding:14px}.c-bal,.c-keys{display:none}.search{width:100%}
+  main{--dock:190px!important}
+  .ln{grid-template-columns:54px 84px minmax(0,1fr)}
+}
 </style>
 </head>
 <body>
 <div class="app">
-<header>
-  <h1>anarchia-boty</h1>
-  <span class="dim" id="ver"></span>
-  <span class="sp"></span>
-  <div class="meta"><span id="m-target" class="hide-s"></span><span id="m-ram"></span><span id="m-net"></span><span id="m-up" class="hide-s"></span></div>
-</header>
-<div class="notice" id="notice" hidden></div>
-<div class="stats">
-  <div class="stat"><div class="k">Online</div><div class="v" id="s-online">0</div><div class="s" id="s-online2">z 0 kont</div></div>
-  <div class="stat"><div class="k">AFK</div><div class="v" id="s-afk">0</div><div class="s" id="s-afk2">zarabia</div></div>
-  <div class="stat"><div class="k">Zarobione</div><div class="v" id="s-earn">0$</div><div class="s">ta sesja</div></div>
-  <div class="stat"><div class="k">Klucze</div><div class="v" id="s-keys">0</div><div class="s" id="s-keys2">w ekwipunku: 0</div></div>
-  <div class="stat"><div class="k">Oddane</div><div class="v" id="s-drop">0$</div><div class="s" id="s-drop2">0 kluczy</div></div>
-  <div class="stat"><div class="k">Proxy</div><div class="v" id="s-ips">0</div><div class="s" id="s-ips2">IP · limit 25/IP</div></div>
-</div>
-<main>
-  <section class="left">
-    <div class="bar">
-      <button class="btn" id="b-all">Zaznacz wszystkie</button>
-      <span class="mut" id="selinfo">0 zaznaczonych</span>
-      <span class="sp"></span>
-      <button class="btn" data-act="enable">Włącz</button>
-      <button class="btn" data-act="disable">Wyłącz</button>
-      <button class="btn" data-act="reconnect">Połącz ponownie</button>
-      <button class="btn pri" data-act="drop">Oddaj</button>
-      <button class="btn dng" data-act="remove">Usuń</button>
+<nav>
+  <div class="brand"><b>anarchia-boty</b><span id="ver">&nbsp;</span></div>
+  <div class="nav">
+    <a data-v="bots" class="on"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3" width="11" height="10" rx="2"/><path d="M6 7v1.5M10 7v1.5M6 11h4"/></svg>Boty<span class="cnt num" id="n-bots"></span></a>
+    <a data-v="acc"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5.5" r="2.5"/><path d="M3 13.5c.6-2.4 2.6-3.8 5-3.8s4.4 1.4 5 3.8"/></svg>Dodaj konta</a>
+    <a data-v="prx"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="5.5"/><path d="M2.5 8h11M8 2.5c1.6 1.6 2.3 3.4 2.3 5.5S9.6 11.9 8 13.5M8 2.5C6.4 4.1 5.7 5.9 5.7 8s.7 3.9 2.3 5.5"/></svg>Proxy<span class="cnt num" id="n-prx"></span></a>
+    <a data-v="set"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5h6M12 4.5h1M3 11.5h1M7 11.5h6"/><circle cx="10.5" cy="4.5" r="1.5"/><circle cx="5.5" cy="11.5" r="1.5"/></svg>Ustawienia</a>
+  </div>
+  <div class="side-foot">
+    <div class="warn" id="warn" hidden></div>
+    <div class="sys num">
+      <span>Serwer</span><b id="y-srv">—</b>
+      <span>RAM</span><b id="y-ram">—</b>
+      <span>Sieć</span><b id="y-net">—</b>
+      <span>Pobrano</span><b id="y-tot">—</b>
+      <span>Czas pracy</span><b id="y-up">—</b>
     </div>
-    <div class="scroll" id="tablewrap">
-      <table>
-        <thead><tr>
-          <th style="width:30px"><input type="checkbox" class="cb" id="cb-all"></th>
-          <th data-k="name">Nick</th><th data-k="phase">Status</th><th data-k="uptime">Czas</th>
-          <th data-k="earned" class="r">Zarobił</th><th data-k="balance" class="r">Saldo</th><th data-k="keys" class="r">Klucze</th>
-          <th data-k="ip">IP</th><th data-k="reason">Info</th>
-        </tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
-      <div class="empty" id="empty" hidden>Brak kont. Dodaj nicki w zakładce <b>Konta</b> po prawej.</div>
+  </div>
+</nav>
+
+<main id="main">
+  <section class="view on" id="v-bots">
+    <div class="stats">
+      <div class="stat lead"><div class="k">Zarobione w tej sesji</div><div class="v num" id="s-earn">0 $</div><div class="s num" id="s-earn2">saldo kont: —</div></div>
+      <div class="stat"><div class="k">Boty online</div><div class="v num" id="s-on">0<small>/ 0</small></div><div class="s num" id="s-on2">0 na AFK</div></div>
+      <div class="stat"><div class="k">Klucze</div><div class="v num" id="s-keys">0</div><div class="s num" id="s-keys2">w ekwipunkach: 0</div></div>
+      <div class="stat"><div class="k">Oddane</div><div class="v num" id="s-drop">0 $</div><div class="s num" id="s-drop2">0 kluczy</div></div>
+    </div>
+    <div class="card grow">
+      <div class="tb">
+        <div class="search"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg><input type="text" id="q" placeholder="Szukaj nicku" spellcheck="false"></div>
+        <span class="selc num" id="selc"></span>
+        <div class="acts">
+        <button class="btn" data-act="enable" disabled>Włącz</button>
+        <button class="btn" data-act="disable" disabled>Wyłącz</button>
+        <button class="btn" data-act="reconnect" disabled>Połącz ponownie</button>
+        <button class="btn" data-act="afk" disabled>/afk</button>
+        <button class="btn pri" data-act="drop" disabled>Oddaj</button>
+        <span class="sep"></span>
+        <button class="btn dng" data-act="remove" disabled>Usuń</button>
+        </div>
+      </div>
+      <div class="tw">
+        <table>
+          <colgroup><col style="width:44px"><col style="width:22%"><col style="width:17%"><col class="c-up" style="width:11%"><col style="width:12%"><col class="c-bal" style="width:12%"><col class="c-keys" style="width:10%"><col class="c-ip" style="width:17%"><col class="c-info"></colgroup>
+          <thead><tr>
+            <th><input type="checkbox" class="cb" id="cb-all" title="Zaznacz wszystkie (Ctrl+A)"></th>
+            <th data-k="name">Nick<span class="ar"></span></th>
+            <th data-k="st">Status<span class="ar"></span></th>
+            <th data-k="up" class="c-up" title="Czas od połączenia">Online<span class="ar"></span></th>
+            <th data-k="earned" class="r" title="Zarobione w tej sesji"><span class="ar"></span>Zarobił</th>
+            <th data-k="balance" class="r c-bal" title="Stan konta ze scoreboardu"><span class="ar"></span>Saldo</th>
+            <th data-k="keys" class="r c-keys" title="Zdobyte / w ekwipunku"><span class="ar"></span>Klucze</th>
+            <th data-k="ip" class="c-ip" style="padding-left:24px">IP<span class="ar"></span></th>
+            <th class="c-info">Info</th>
+          </tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="empty" id="empty" hidden><b>Brak kont</b><span>Dodaj nicki — boty same wejdą na serwer i pójdą na AFK.</span><button class="btn pri" data-go="acc">Dodaj konta</button></div>
+        <div class="empty" id="nores" hidden><span>Brak wyników dla „<span id="qv"></span>”</span></div>
+      </div>
     </div>
   </section>
-  <section class="right">
-    <div class="tabs"><div class="tab on" data-p="log">Log</div><div class="tab" data-p="acc">Konta</div><div class="tab" data-p="prx">Proxy</div><div class="tab" data-p="set">Ustawienia</div><div class="tab" data-p="cmd">Komendy</div></div>
-    <div class="scroll" style="position:relative">
-      <div class="pane on log" id="p-log"></div>
-      <div class="pane" id="p-acc">
-        <div class="field"><label>Dodaj konta</label><textarea id="acc-text" rows="8" placeholder="jeden nick w linii&#10;nick:hasło — własne hasło konta"></textarea><div class="hint">Konta non-premium. Nowe konta są rejestrowane automatycznie hasłem z Ustawień.</div></div>
-        <button class="btn pri" id="acc-add">Dodaj</button>
+
+  <section class="view" id="v-acc">
+    <div><h2>Dodaj konta</h2><div class="sub">Konta non-premium. Nowe są rejestrowane automatycznie.</div></div>
+    <div class="grid2">
+      <div class="sec">
+        <div class="f"><label for="acc-text">Nicki</label><textarea id="acc-text" rows="12" spellcheck="false" placeholder="nick&#10;nick2:wlasneHaslo!123"></textarea><div class="hint">Jeden w linii. <span style="font-family:var(--mono)">nick:hasło</span> ustawia własne hasło dla konta, w innym wypadku używane jest hasło z Ustawień.</div></div>
+        <div class="row"><button class="btn pri" id="acc-add">Dodaj</button><span class="hint" id="acc-res"></span></div>
       </div>
-      <div class="pane" id="p-prx">
-        <div class="field"><label>Lista proxy SOCKS5</label><textarea id="prx-text" rows="12" placeholder="host:port&#10;host:port:user:pass&#10;user:pass@host:port"></textarea><div class="hint">Max 25 botów na jeden publiczny IP (sprawdzany przez proxy). Pusta lista = bez proxy (25 botów).</div></div>
-        <div class="row"><button class="btn pri" id="prx-save">Zapisz</button><button class="btn" id="prx-check">Sprawdź IP</button><span class="mut" id="prx-info"></span></div>
-      </div>
-      <div class="pane" id="p-set">
-        <div class="field"><label>Serwer</label><input type="text" id="st-server"><div class="hint">Adres rozwiązywany przez DNS (rekord SRV), jak w kliencie.</div></div>
-        <div class="field"><label>Hasło kont</label><input type="password" id="st-pass" placeholder="••••••••" autocomplete="new-password"><div class="hint" id="st-pass-h">14–32 znaki, duża i mała litera, cyfra, znak specjalny.</div></div>
-        <div class="field"><label>Odbiorca dropów (nick)</label><input type="text" id="st-target"></div>
-        <div class="field"><label>Auto-oddawanie co (min, 0 = wyłączone)</label><input type="number" id="st-auto" min="0"></div>
-        <div class="field"><label>Minimalny czek ($)</label><input type="number" id="st-minc" min="1"><div class="hint">Bot oddaje kasę dopiero, gdy saldo osiągnie tę kwotę. Klucze są oddawane zawsze.</div></div>
-        <div class="field"><label>Odstęp między wejściami (ms)</label><input type="number" id="st-delay" min="500"></div>
-        <div class="field"><label>Botów na IP (max 25)</label><input type="number" id="st-perip" min="1" max="25"></div>
-        <div class="field"><label class="row" style="text-transform:none;letter-spacing:0;font-size:13px;color:var(--t)"><input type="checkbox" class="cb" id="st-soff"> Wyłączaj /settings (oszczędza transfer)</label></div>
-        <button class="btn pri" id="st-save">Zapisz</button>
-      </div>
-      <div class="pane" id="p-cmd">
-        <div class="field"><label>Wyślij do zaznaczonych (lub wszystkich)</label><div class="row"><input type="text" id="cmd-text" placeholder="/komenda lub wiadomość" style="flex:1"><button class="btn" id="cmd-send">Wyślij</button></div></div>
-        <div class="field"><label>Oddaj teraz do</label><div class="row"><input type="text" id="drop-target" placeholder="nick" style="flex:1"><button class="btn pri" id="drop-go">Oddaj</button></div><div class="hint">Bot robi /czek z całego salda, /tpa do gracza, czeka aż będzie obok i wyrzuca czeki i klucze. Zaakceptuj /tpaccept.</div></div>
-        <div class="field"><label>Wróć na AFK</label><button class="btn" id="afk-go">/afk</button></div>
+      <div class="sec">
+        <h3>Co robi bot</h3>
+        <ol class="steps">
+          <li>Loguje się albo rejestruje konto.</li>
+          <li>Przechodzi weryfikację (kowadło i ruch).</li>
+          <li>Wchodzi na AnarchiaSMP i raz wyłącza /settings.</li>
+          <li>Idzie na /afk i zarabia.</li>
+          <li>Po rozłączeniu sam wraca. Max <span class="num" id="h-perip">25</span> kont na IP.</li>
+        </ol>
       </div>
     </div>
+  </section>
+
+  <section class="view" id="v-prx">
+    <div><h2>Proxy</h2><div class="sub">SOCKS5. Boty są rozdzielane po publicznym IP, max <span class="num" id="p-perip">25</span> na jeden IP.</div></div>
+    <div class="grid2">
+      <div class="sec">
+        <div class="f"><label for="prx-text">Lista</label><textarea id="prx-text" rows="14" spellcheck="false" placeholder="host:port&#10;host:port:user:pass&#10;user:pass@host:port"></textarea><div class="hint">Pusta lista = bez proxy (jeden IP).</div></div>
+        <div class="row"><button class="btn pri" id="prx-save">Zapisz</button><button class="btn" id="prx-check">Sprawdź IP</button></div>
+      </div>
+      <div class="sec">
+        <h3>Publiczne IP <span class="mu num" id="p-sum" style="font-weight:400"></span></h3>
+        <div id="p-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-set">
+    <div><h2>Ustawienia</h2><div class="sub">Zapisywane w folderze data obok programu.</div></div>
+    <div class="grid2">
+      <div class="sec">
+        <h3>Konta</h3>
+        <div class="f"><label for="st-pass">Hasło kont</label><input type="password" id="st-pass" autocomplete="new-password" placeholder="••••••••"><div class="hint" id="st-pass-h"></div></div>
+        <div class="f"><label class="chk"><input type="checkbox" class="cb" id="st-soff">Wyłączaj /settings przy pierwszym wejściu</label><div class="hint">Mniej wiadomości z serwera, mniejszy transfer.</div></div>
+        <h3 style="margin-top:22px">Połączenie</h3>
+        <div class="f"><label for="st-server">Serwer</label><input type="text" id="st-server" spellcheck="false"><div class="hint">Adres rozwiązywany przez DNS (SRV), jak w kliencie.</div></div>
+        <div class="cols">
+          <div class="f"><label for="st-delay">Odstęp między wejściami (ms)</label><input type="number" id="st-delay" min="500"></div>
+          <div class="f"><label for="st-perip">Botów na IP</label><input type="number" id="st-perip" min="1" max="25"></div>
+        </div>
+      </div>
+      <div class="sec">
+        <h3>Oddawanie</h3>
+        <div class="f"><label for="st-target">Odbiorca (twój nick)</label><input type="text" id="st-target" spellcheck="false"><div class="hint">Bot robi /czek z salda, /tpa do ciebie i wyrzuca czeki oraz klucze. Zaakceptuj /tpaccept.</div></div>
+        <div class="cols">
+          <div class="f"><label for="st-minc">Minimalny czek ($)</label><input type="number" id="st-minc" min="1"></div>
+          <div class="f"><label for="st-auto">Automatycznie co (min)</label><input type="number" id="st-auto" min="0"><div class="hint">0 = tylko ręcznie</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="row"><button class="btn pri" id="st-save">Zapisz ustawienia</button></div>
+  </section>
+
+  <div class="handle" id="handle" title="Przeciągnij, aby zmienić wysokość"></div>
+  <section class="dock">
+    <div class="dh">
+      <b>Log</b><span class="who" id="lwho"></span>
+      <div class="seg" id="lseg"><button data-f="ev">Zdarzenia</button><button data-f="all">Wszystko</button></div>
+      <span style="flex:1"></span>
+      <button class="btn ghost sm" id="lclear">Wyczyść</button>
+    </div>
+    <div class="log" id="log"><div class="lempty" id="lempty">Brak zdarzeń.</div></div>
+    <div class="cmd"><input type="text" id="cmd" spellcheck="false"><button class="btn" id="cmd-go">Wyślij</button></div>
   </section>
 </main>
 </div>
@@ -150,94 +312,148 @@ td.n{font-weight:500}
 <script>
 (()=>{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-let S=null,sel=new Set(),sortK='name',sortD=1,lastLog=0,logWho='';
-const fmt$=v=>v==null?'—':(Math.round(v*100)/100).toLocaleString('pl-PL')+'$';
-const fmtB=b=>b>1<<30?(b/(1<<30)).toFixed(2)+' GB':b>1<<20?(b/(1<<20)).toFixed(1)+' MB':(b/1024).toFixed(0)+' KB';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2200)}
-async function api(p,b){const r=await fetch(p,b?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}:{});if(r.status==401){location.reload();throw 0}return r.json()}
-function dot(b){if(!b.enabled)return'';if(b.phase==='Afk')return'g';if(b.connected)return'y';return b.reason?'r':''}
-let rate={t:0,rx:0,tx:0,r:0,w:0};
-function render(){
-  if(!S)return;const T=S.totals,P=S.proxies,Y=S.sys;
-  $('#ver').textContent='v'+Y.version;
-  const nt=$('#notice');const need=!S.settings.has_password;const noAcc=!S.bots.length;
-  nt.hidden=!(need||noAcc);
-  if(need)nt.innerHTML='Ustaw hasło kont w <a data-go="set">Ustawieniach</a> — bez niego boty nie wchodzą na serwer.';
-  else if(noAcc)nt.innerHTML='Dodaj konta w zakładce <a data-go="acc">Konta</a>.';
-  $('#s-online').textContent=T.online;$('#s-online2').textContent='z '+T.accounts+' kont';
-  $('#s-afk').textContent=T.afk;
-  $('#s-earn').textContent=fmt$(T.earned);
-  $('#s-keys').textContent=T.keys;
-  $('#s-keys2').textContent='w ekwipunku: '+S.bots.reduce((a,b)=>a+b.inv_keys,0);
-  $('#s-drop').textContent=fmt$(T.dropped);$('#s-drop2').textContent=T.dropped_keys+' kluczy';
-  $('#s-ips').textContent=P.total?P.ips:'—';$('#s-ips2').textContent=P.total?(P.working+'/'+P.total+' proxy · '+P.capacity+' miejsc'):'bez proxy · '+P.per_ip+' miejsc';
-  $('#m-target').textContent=Y.target?('serwer '+Y.target):'';
-  $('#m-ram').textContent='RAM '+(Y.rss_kb/1024).toFixed(0)+' MB';
-  const now=Date.now();if(rate.t){const dt=(now-rate.t)/1000;if(dt>0.5){rate.r=(Y.rx-rate.rx)/dt;rate.w=(Y.tx-rate.tx)/dt}}rate={...rate,t:now,rx:Y.rx,tx:Y.tx};
-  $('#m-net').textContent='↓ '+fmtB(Math.max(0,rate.r))+'/s ↑ '+fmtB(Math.max(0,rate.w))+'/s · '+fmtB(Y.rx);
-  $('#m-up').textContent=Y.uptime;
-  const bots=[...S.bots].sort((a,b)=>{let x=a[sortK],y=b[sortK];if(sortK==='phase'){x=a.label;y=b.label}if(x==null)return 1;if(y==null)return -1;return (typeof x==='number'?x-y:String(x).localeCompare(String(y)))*sortD});
-  for(const n of [...sel])if(!S.bots.some(b=>b.name===n))sel.delete(n);
-  $('#empty').hidden=bots.length>0;
-  const html=bots.map(b=>{
-    const info=b.retry_in!=null&&!b.connected&&b.enabled?('ponowna próba za '+b.retry_in+'s'+(b.reason?' · '+b.reason:'')):b.reason;
-    return `<tr data-n="${esc(b.name)}" class="${sel.has(b.name)?'sel':''}">
-    <td><input type="checkbox" class="cb" ${sel.has(b.name)?'checked':''}></td>
-    <td class="n">${esc(b.name)}</td>
-    <td><span class="dot ${dot(b)}"></span>${esc(b.label)}</td>
-    <td class="mut">${esc(b.uptime||'—')}</td>
-    <td class="r">${fmt$(b.earned)}</td>
-    <td class="r mut">${fmt$(b.balance)}</td>
-    <td class="r">${b.keys}${b.inv_keys?` <span class="dim">(${b.inv_keys})</span>`:''}</td>
-    <td class="mut">${esc(b.ip||'—')}</td>
-    <td class="mut"><span class="reason" title="${esc(info)}">${esc(info||'')}</span></td></tr>`}).join('');
-  const rows=$('#rows');if(rows._h!==html){rows.innerHTML=html;rows._h=html}
-  $('#selinfo').textContent=sel.size+' zaznaczonych';
-  $('#cb-all').checked=sel.size>0&&sel.size===S.bots.length;
-  const st=S.settings;
-  for(const [id,k] of [['#st-server','server'],['#st-target','drop_target'],['#st-auto','auto_drop_minutes'],['#st-delay','join_delay_ms'],['#st-perip','per_ip'],['#st-minc','min_cheque']]){const e=$(id);if(document.activeElement!==e&&!e._dirty)e.value=st[k]}
-  if(!$('#st-soff')._dirty)$('#st-soff').checked=st.settings_off;
-  $('#st-pass-h').textContent=st.has_password?'Hasło ustawione. Wpisz nowe, aby zmienić.':'14–32 znaki, duża i mała litera, cyfra, znak specjalny.';
-  if(!$('#drop-target')._dirty&&!$('#drop-target').value)$('#drop-target').value=st.drop_target;
-  const pt=$('#prx-text');if(!pt._dirty&&document.activeElement!==pt){const v=P.list.map(p=>p.raw).join('\n');if(pt.value!==v)pt.value=v}
-  $('#prx-info').textContent=P.total?(P.working+' działa, '+P.ips+' unikalnych IP'):'';
+const money=v=>v==null?'—':(Math.round(v*100)/100).toLocaleString('pl-PL',{maximumFractionDigits:2})+' $';
+const bytes=b=>b>=1<<30?(b/(1<<30)).toFixed(2)+' GB':b>=1<<20?(b/(1<<20)).toFixed(1)+' MB':Math.round(b/1024)+' KB';
+const rate=b=>b<1024?Math.round(b)+' B/s':(b/1024).toFixed(1)+' KB/s';
+const pl=(n,a,b,c)=>n===1?a:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?b:c;
+let S=null,sel=new Set(),sortK='name',sortD=1,lastLog=0,logWho='',logF=localStorage.lf||'ev',net={t:0,rx:0,r:0},filled=false,anchor=null;
+
+function toast(m,bad){const t=$('#toast');t.textContent=m;t.classList.toggle('bad',!!bad);t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600)}
+async function api(p,b){const r=await fetch(p,b?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)}:{});if(r.status===401){location.reload();throw 0}return r.json()}
+
+const LBL={smp:'SMP',afk:'AFK','menu afk':'Menu AFK',settings:'/settings',lobby:'Lobby'};
+function stat(b){
+  if(!b.enabled)return{c:'off',l:'Wyłączony',o:4};
+  if(b.phase==='Afk')return{c:'ok',l:'AFK',o:0};
+  if(b.connected)return{c:'wa',l:LBL[b.label]||(b.label[0].toUpperCase()+b.label.slice(1)),o:1};
+  if(b.connecting)return{c:'wa',l:'Łączenie',o:1};
+  if(b.reason)return{c:'er',l:'Rozłączony',o:2};
+  return{c:'idle',l:'W kolejce',o:3};
 }
+function info(b,s){
+  if(s.c==='er'){let t=b.reason.replace(/^Disconnected:\s*/,'').replace(/\s+/g,' ').trim();if(b.retry_in>0)t+=' · ponownie za '+b.retry_in+' s';return t}
+  if(s.c==='idle'&&b.retry_in>0)return'start za '+b.retry_in+' s';
+  return'';
+}
+
+function view(v){$$('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));$$('.view').forEach(x=>x.classList.toggle('on',x.id==='v-'+v));if(v==='set')fill(true);if(v==='prx')fillPrx(true)}
+$$('.nav a').forEach(a=>a.onclick=()=>view(a.dataset.v));
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){view(g.dataset.go);const f=g.dataset.focus;if(f)setTimeout(()=>$(f)?.focus(),0)}});
+
+function render(){
+  if(!S)return;const T=S.totals,P=S.proxies,Y=S.sys,st=S.settings;
+  $('#ver').textContent='v'+Y.version;
+  $('#y-srv').textContent=st.server;$('#y-srv').title=Y.target||'';
+  $('#y-ram').textContent=(Y.rss_kb/1024).toFixed(0)+' MB';
+  const now=Date.now();if(net.t&&now-net.t>500)net.r=Math.max(0,(Y.rx-net.rx)/((now-net.t)/1000));net.t=now;net.rx=Y.rx;
+  $('#y-net').textContent='↓ '+rate(net.r);$('#y-tot').textContent=bytes(Y.rx);$('#y-up').textContent=Y.uptime;
+  $('#n-bots').textContent=S.bots.length||'';$('#n-prx').textContent=P.total||'';
+  const w=$('#warn');
+  if(!st.has_password){w.hidden=false;w.innerHTML='Ustaw <a data-go="set" data-focus="#st-pass">hasło kont</a> — bez niego boty nie wchodzą na serwer.'}
+  else if(!st.drop_target){w.hidden=false;w.innerHTML='Ustaw <a data-go="set" data-focus="#st-target">odbiorcę</a>, żeby boty mogły oddawać kasę i klucze.'}
+  else w.hidden=true;
+  $('#h-perip').textContent=$('#p-perip').textContent=P.per_ip;
+
+  const anyBal=S.bots.some(b=>b.balance!=null),bal=S.bots.reduce((a,b)=>a+(b.balance||0),0),ik=S.bots.reduce((a,b)=>a+b.inv_keys,0);
+  $('#s-earn').textContent=money(T.earned);$('#s-earn').classList.toggle('pos',T.earned>0);$('#s-earn').classList.toggle('zero',!T.earned);
+  $('#s-earn2').textContent='saldo kont: '+(anyBal?money(bal):'—');
+  $('#s-on').innerHTML=T.online+'<small>/ '+T.accounts+'</small>';
+  $('#s-on2').textContent=T.afk+' na AFK';
+  $('#s-keys').textContent=T.keys;$('#s-keys').classList.toggle('zero',!T.keys);
+  $('#s-keys2').textContent='w ekwipunkach: '+ik;
+  $('#s-drop').textContent=money(T.dropped);$('#s-drop').classList.toggle('zero',!T.dropped);
+  $('#s-drop2').textContent=T.dropped_keys+' '+pl(T.dropped_keys,'klucz','klucze','kluczy');
+
+  for(const n of [...sel])if(!S.bots.some(b=>b.name===n))sel.delete(n);
+  const q=$('#q').value.trim().toLowerCase();
+  const rows=S.bots.map(b=>({b,s:stat(b)})).filter(x=>!q||x.b.name.toLowerCase().includes(q));
+  const key=x=>({name:x.b.name.toLowerCase(),st:x.s.o,up:x.b.connected?-(x.b.up_s||0):1e12,earned:x.b.earned,balance:x.b.balance??-1,keys:x.b.keys+x.b.inv_keys,ip:x.b.ip||'~'})[sortK];
+  rows.sort((a,c)=>{const x=key(a),y=key(c);return(x<y?-1:x>y?1:0)*sortD||a.b.name.localeCompare(c.b.name)});
+  $('#empty').hidden=S.bots.length>0;$('#nores').hidden=!(S.bots.length&&!rows.length);$('#qv').textContent=q;
+  const html=rows.map(({b,s})=>{const inf=info(b,s);return`<tr data-n="${esc(b.name)}" class="${sel.has(b.name)?'sel':''}">
+<td><input type="checkbox" class="cb" ${sel.has(b.name)?'checked':''}></td>
+<td class="nm">${esc(b.name)}</td>
+<td title="${esc(inf)}"><span class="st ${s.c}"><span class="dot"></span>${esc(s.l)}</span></td>
+<td class="mu num c-up">${b.connected&&b.uptime?esc(b.uptime):'<span class="di">—</span>'}</td>
+<td class="r num ${b.earned?'':'di'}">${money(b.earned)}</td>
+<td class="r num c-bal ${b.balance==null?'di':''}">${money(b.balance)}</td>
+<td class="r num c-keys ${b.keys||b.inv_keys?'':'di'}">${b.keys}${b.inv_keys?` <span class="mu">/ ${b.inv_keys}</span>`:''}</td>
+<td class="mu num c-ip" style="padding-left:24px">${b.ip?esc(b.ip):'<span class="di">—</span>'}</td>
+<td class="info c-info ${s.c==='er'?'er':''}" title="${esc(inf)}">${esc(inf)}</td></tr>`}).join('');
+  const tb=$('#rows');if(tb._h!==html){tb.innerHTML=html;tb._h=html}
+  $$('th[data-k]').forEach(th=>th.querySelector('.ar').textContent=th.dataset.k===sortK?(sortD>0?'↑':'↓'):'');
+  const n=sel.size,ca=$('#cb-all');ca.checked=n>0&&n===S.bots.length;ca.indeterminate=n>0&&n<S.bots.length;
+  $('#selc').classList.toggle('n',!!n);
+  $('#selc').textContent=n?n+' '+pl(n,'zaznaczony','zaznaczone','zaznaczonych'):(S.bots.length?'Zaznacz boty, aby wykonać akcję':'');
+  $$('[data-act]').forEach(b=>b.disabled=!n);
+  const dr=$('[data-act=drop]');if(n&&!st.drop_target){dr.disabled=true;dr.title='Najpierw ustaw odbiorcę w Ustawieniach'}else dr.title='';
+  $('#cmd').placeholder='Komenda lub wiadomość do '+(n?n+' '+pl(n,'zaznaczonego bota','zaznaczonych botów','zaznaczonych botów'):'wszystkich botów')+' — Enter wysyła';
+  if(!filled)fill(false);
+  if($('#v-prx').classList.contains('on'))fillPrx(false);
+}
+function fill(force){if(!S||(!force&&filled))return;filled=true;const st=S.settings;
+  $('#st-server').value=st.server;$('#st-target').value=st.drop_target||'';$('#st-auto').value=st.auto_drop_minutes;$('#st-delay').value=st.join_delay_ms;$('#st-perip').value=st.per_ip;$('#st-minc').value=st.min_cheque;$('#st-soff').checked=st.settings_off;$('#st-pass').value='';
+  $('#st-pass-h').textContent=st.has_password?'Ustawione. Wpisz nowe tylko, jeśli chcesz je zmienić.':'14–32 znaki: duża i mała litera, cyfra, znak specjalny.'}
+function fillPrx(force){const P=S.proxies,ta=$('#prx-text');if(force||(!ta._dirty&&document.activeElement!==ta))ta.value=P.list.map(p=>p.raw).join('\n');
+  const by={};for(const p of P.list){const k=p.ip||'';(by[k]=by[k]||{ip:p.ip,px:[],bots:0}).px.push(p.raw)}
+  for(const b of S.bots)if(b.connected&&b.ip&&by[b.ip])by[b.ip].bots++;
+  const g=Object.values(by).sort((a,b)=>(!a.ip)-(!b.ip)||b.bots-a.bots);
+  $('#p-sum').textContent=P.total?`· ${P.ips} IP · ${P.working}/${P.total} działa · ${P.capacity} miejsc`:'';
+  $('#p-list').innerHTML=P.total?'<div class="pl">'+g.map(x=>`<div class="pi"><span class="ip">${x.ip?esc(x.ip):'<span style="color:var(--er)">nie działa</span>'}</span><span class="c num">${x.ip?x.bots+' / '+P.per_ip:''}</span><span class="px" title="${esc(x.px.join(', '))}">${esc(x.px.join(', '))}</span>${x.ip?`<div class="bar"><i class="${x.bots>=P.per_ip?'full':''}" style="width:${Math.min(100,x.bots/P.per_ip*100)}%"></i></div>`:''}</div>`).join('')+'</div>':'<div class="hint">Brak proxy — boty łączą się bezpośrednio.</div>'}
+
 async function poll(){try{S=await api('/api/state');render()}catch(e){}setTimeout(poll,1500)}
-async function pollLog(){try{const r=await api('/api/logs?after='+lastLog+(logWho?'&who='+encodeURIComponent(logWho):''));const box=$('#p-log');const atBottom=box.parentElement.scrollTop+box.parentElement.clientHeight>=box.parentElement.scrollHeight-20;
-  for(const l of r.logs){lastLog=l.id;const d=document.createElement('div');d.className='l'+l.lvl;const t=new Date(l.t).toLocaleTimeString('pl-PL');d.innerHTML=`<span class="t">${t}</span> ${l.who?`<span class="w">${esc(l.who)}</span> `:''}${esc(l.msg)}`;box.appendChild(d)}
-  while(box.childElementCount>1500)box.firstChild.remove();
-  if(atBottom&&r.logs.length&&$('.tab.on').dataset.p==='log')box.parentElement.scrollTop=1e9}catch(e){}setTimeout(pollLog,1200)}
+
+function cls(l){const m=l.msg;if(/^\+[\d.,\s]+\$/.test(m)||/^oddano /.test(m)||/^klucz/.test(m))return'g';if(/rozłącz|nieudan|błąd|złe hasło|watchdog|nie udało|timeout/i.test(m))return'e';if(m.startsWith('chat:'))return'c';if(l.lvl<=1)return'k';return''}
+const hide=(c,lvl)=>logF==='ev'&&(c==='c'||lvl>=3);
+const hue=s=>{let x=0;for(const c of s)x=(x*31+c.charCodeAt(0))>>>0;return x%360};
+function line(l){const c=cls(l),d=document.createElement('div');d.className='ln '+c;d.dataset.c=c;d.dataset.l=l.lvl;d.hidden=hide(c,l.lvl);
+  d.innerHTML=`<span class="t num">${new Date(l.t).toLocaleTimeString('pl-PL')}</span><span class="w"${l.who?` style="color:hsl(${hue(l.who)} 45% 68%)"`:''}>${esc(l.who||'system')}</span><span class="m">${esc(l.msg.replace(/^chat: /,''))}</span>`;return d}
+function emptyLog(){const box=$('#log');$('#lempty').hidden=[...box.querySelectorAll('.ln')].some(d=>!d.hidden)}
+async function pollLog(){try{const r=await api('/api/logs?after='+lastLog+(logWho?'&who='+encodeURIComponent(logWho):''));const box=$('#log'),bottom=box.scrollTop+box.clientHeight>=box.scrollHeight-24;
+  if(r.logs.length){const fr=document.createDocumentFragment();for(const l of r.logs){lastLog=l.id;fr.appendChild(line(l))}box.appendChild(fr);
+    let n=box.querySelectorAll('.ln').length;while(n-->2000)box.querySelector('.ln').remove();emptyLog();if(bottom)box.scrollTop=box.scrollHeight}}catch(e){}setTimeout(pollLog,1200)}
+function setWho(w){if(w===logWho)return;logWho=w;lastLog=0;$$('#log .ln').forEach(d=>d.remove());emptyLog();$('#lwho').textContent=w?'· '+w:''}
+function applyF(){$$('#lseg button').forEach(b=>b.classList.toggle('on',b.dataset.f===logF));$$('#log .ln').forEach(d=>d.hidden=hide(d.dataset.c,+d.dataset.l));emptyLog();const b=$('#log');b.scrollTop=b.scrollHeight}
+$$('#lseg button').forEach(b=>b.onclick=()=>{logF=localStorage.lf=b.dataset.f;applyF()});applyF();
+$('#lclear').onclick=()=>{$$('#log .ln').forEach(d=>d.remove());emptyLog()};
+
+(()=>{const m=$('#main'),h=$('#handle');const set=px=>{px=Math.max(120,Math.min(innerHeight-240,px));m.style.setProperty('--dock',px+'px');localStorage.dock=px};if(localStorage.dock)set(+localStorage.dock);
+  h.onpointerdown=e=>{h.setPointerCapture(e.pointerId);h.classList.add('drag');const y0=e.clientY,d0=m.querySelector('.dock').offsetHeight;h.onpointermove=ev=>set(d0+(y0-ev.clientY))};
+  h.onpointerup=()=>{h.classList.remove('drag');h.onpointermove=null}})();
+
 $('#rows').addEventListener('click',e=>{const tr=e.target.closest('tr');if(!tr)return;const n=tr.dataset.n;
-  if(e.target.matches('input')||e.ctrlKey||e.metaKey){sel.has(n)?sel.delete(n):sel.add(n)}
-  else if(e.shiftKey&&sel.size){const names=$$('#rows tr').map(r=>r.dataset.n);const last=[...sel].pop();let a=names.indexOf(last),b=names.indexOf(n);if(a>b)[a,b]=[b,a];names.slice(a,b+1).forEach(x=>sel.add(x))}
-  else{const only=sel.size===1&&sel.has(n);sel.clear();if(!only)sel.add(n)}
-  setLogFilter(sel.size===1?[...sel][0]:'');render()});
-function setLogFilter(w){if(w===logWho)return;logWho=w;lastLog=0;$('#p-log').innerHTML=w?`<div class="t">— log: ${esc(w)} —</div>`:''}
-$('#cb-all').onchange=e=>{sel=e.target.checked?new Set(S.bots.map(b=>b.name)):new Set();setLogFilter('');render()};
-$('#b-all').onclick=()=>{sel=sel.size===S?.bots.length?new Set():new Set(S.bots.map(b=>b.name));setLogFilter('');render()};
+  if(e.shiftKey&&anchor){const ns=$$('#rows tr').map(r=>r.dataset.n);let a=ns.indexOf(anchor),b=ns.indexOf(n);if(a<0)a=b;if(a>b)[a,b]=[b,a];ns.slice(a,b+1).forEach(x=>sel.add(x))}
+  else if(e.target.matches('.cb')||e.ctrlKey||e.metaKey){sel.has(n)?sel.delete(n):sel.add(n);anchor=n}
+  else{const only=sel.size===1&&sel.has(n);sel.clear();if(!only)sel.add(n);anchor=n}
+  setWho(sel.size===1?[...sel][0]:'');render()});
+$('#cb-all').onchange=e=>{sel=e.target.checked?new Set(S.bots.map(b=>b.name)):new Set();setWho('');render()};
 $$('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(sortK===k)sortD=-sortD;else{sortK=k;sortD=1}render()});
-const openTab=p=>$$('.tab').find(t=>t.dataset.p===p)?.click();
-$('#notice').addEventListener('click',e=>{const g=e.target.dataset.go;if(g)openTab(g)});
-$$('.tab').forEach(t=>t.onclick=()=>{$$('.tab').forEach(x=>x.classList.toggle('on',x===t));$$('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+t.dataset.p))});
-$$('input,textarea').forEach(e=>e.addEventListener('input',()=>e._dirty=true));
-const names=()=>[...sel];
-$$('[data-act]').forEach(b=>b.onclick=async()=>{const op=b.dataset.act;const n=names();
-  if(!n.length&&op!=='drop'){toast('Zaznacz konta');return}
-  if(op==='remove'&&!confirm('Usunąć '+n.length+' kont?'))return;
-  if(op==='drop'){const r=await api('/api/action',{op:'drop',names:n,target:$('#drop-target').value});toast(r.ok?('W kolejce: '+r.queued):r.error);return}
-  await api('/api/accounts',{op,names:n});toast('OK');if(op==='remove')sel.clear()});
-$('#acc-add').onclick=async()=>{const r=await api('/api/accounts',{op:'add',text:$('#acc-text').value});toast('Dodano '+r.added+(r.invalid.length?(' · złe: '+r.invalid.join(', ')):''));if(r.added){$('#acc-text').value=''}};
-$('#prx-save').onclick=async()=>{const e=$('#prx-text');const r=await api('/api/proxies',{op:'set',text:e.value});e._dirty=false;toast('Zapisano '+r.count+' proxy')};
-$('#prx-check').onclick=async()=>{await api('/api/proxies',{op:'check'});toast('Sprawdzam…')};
+$('#q').oninput=render;
+document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea'))return;
+  if(e.key==='Escape'&&sel.size){sel.clear();setWho('');render()}
+  if((e.ctrlKey||e.metaKey)&&e.key==='a'&&$('#v-bots').classList.contains('on')&&S){e.preventDefault();sel=new Set(S.bots.map(b=>b.name));setWho('');render()}});
+
+$$('[data-act]').forEach(b=>b.onclick=async()=>{const op=b.dataset.act,names=[...sel];if(!names.length)return;
+  const N=names.length+' '+pl(names.length,'bot','boty','botów');
+  if(op==='remove'){if(!confirm('Usunąć '+N+' z listy?'))return;await api('/api/accounts',{op,names});sel.clear();setWho('');toast('Usunięto: '+N);return}
+  if(op==='drop'){if(!S.settings.drop_target){toast('Najpierw ustaw odbiorcę',1);view('set');$('#st-target').focus();return}
+    const r=await api('/api/action',{op:'drop',names});toast(r.ok?(r.queued?'Oddawanie do '+S.settings.drop_target+' ('+r.queued+') — zaakceptuj /tpaccept':'Żaden z zaznaczonych botów nie jest online'):r.error,!r.ok||!r.queued);return}
+  if(op==='afk'){await api('/api/action',{op:'afk',names});toast('/afk: '+N);return}
+  await api('/api/accounts',{op,names});toast({enable:'Włączono: ',disable:'Wyłączono: ',reconnect:'Ponowne łączenie: '}[op]+N)});
+const sendCmd=async()=>{const t=$('#cmd').value.trim();if(!t)return;const r=await api('/api/action',{op:'chat',names:[...sel],text:t});toast(r.sent?('Wysłano do '+r.sent+' '+pl(r.sent,'bota','botów','botów')):'Żaden bot nie jest online',!r.sent);if(r.sent)$('#cmd').value=''};
+$('#cmd-go').onclick=sendCmd;$('#cmd').onkeydown=e=>{if(e.key==='Enter')sendCmd()};
+
+$('#acc-add').onclick=async()=>{const t=$('#acc-text').value;if(!t.trim())return;const r=await api('/api/accounts',{op:'add',text:t});
+  $('#acc-res').textContent=(r.added?'Dodano '+r.added+' '+pl(r.added,'konto','konta','kont'):'Nic nowego')+(r.invalid.length?' · pominięto: '+r.invalid.join(', '):'');if(r.added){$('#acc-text').value='';toast('Dodano '+r.added+' '+pl(r.added,'konto','konta','kont'))}};
+$('#prx-text').oninput=e=>e.target._dirty=true;
+$('#prx-save').onclick=async()=>{const e=$('#prx-text');const r=await api('/api/proxies',{op:'set',text:e.value});e._dirty=false;toast('Zapisano '+r.count+' proxy — sprawdzam IP')};
+$('#prx-check').onclick=async()=>{await api('/api/proxies',{op:'check'});toast('Sprawdzam IP proxy…')};
 $('#st-save').onclick=async()=>{const pw=$('#st-pass').value;
-  if(pw&&!(pw.length>=14&&pw.length<=32&&/[a-z]/.test(pw)&&/[A-Z]/.test(pw)&&/\d/.test(pw)&&/[^A-Za-z0-9]/.test(pw))){toast('Hasło nie spełnia wymagań serwera');return}
-  await api('/api/settings',{server:$('#st-server').value,password:pw,drop_target:$('#st-target').value,auto_drop_minutes:+$('#st-auto').value||0,join_delay_ms:+$('#st-delay').value||5200,min_cheque:+$('#st-minc').value||1000,per_ip:+$('#st-perip').value||25,settings_off:$('#st-soff').checked});
-  $('#st-pass').value='';$$('#p-set input').forEach(e=>e._dirty=false);toast('Zapisano')};
-$('#cmd-send').onclick=async()=>{const r=await api('/api/action',{op:'chat',names:names(),text:$('#cmd-text').value});toast('Wysłano do '+(r.sent||0));$('#cmd-text').value=''};
-$('#cmd-text').onkeydown=e=>{if(e.key==='Enter')$('#cmd-send').click()};
-$('#drop-go').onclick=async()=>{const r=await api('/api/action',{op:'drop',names:names(),target:$('#drop-target').value});toast(r.ok?('W kolejce: '+r.queued):r.error)};
-$('#afk-go').onclick=async()=>{await api('/api/action',{op:'afk',names:names()});toast('OK')};
+  if(pw&&!(pw.length>=14&&pw.length<=32&&/[a-z]/.test(pw)&&/[A-Z]/.test(pw)&&/\d/.test(pw)&&/[^A-Za-z0-9]/.test(pw))){toast('Hasło: 14–32 znaki, duża i mała litera, cyfra, znak specjalny',1);$('#st-pass').focus();return}
+  await api('/api/settings',{server:$('#st-server').value.trim(),password:pw,drop_target:$('#st-target').value.trim(),auto_drop_minutes:+$('#st-auto').value||0,join_delay_ms:+$('#st-delay').value||5200,per_ip:Math.min(25,+$('#st-perip').value||25),min_cheque:+$('#st-minc').value||1000,settings_off:$('#st-soff').checked});
+  S=await api('/api/state');fill(true);render();toast('Zapisano ustawienia')};
+
 poll();pollLog();
 })();
 </script>

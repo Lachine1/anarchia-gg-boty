@@ -67,6 +67,8 @@ async fn state() -> Json<Value> {
     let (mut online, mut afk, mut earned, mut keys, mut dropped, mut dkeys) = (0, 0, 0.0, 0u32, 0.0, 0u32);
     for r in &accounts {
         let s = slots.get(&r.name);
+        let connecting = s.is_some_and(|s| s.connecting);
+        let up_s = s.and_then(|s| s.connected_at.map(|t| t.elapsed().as_secs()));
         let (phase, reason, e, k, bal, dm, dk, up, ip, inv_keys, inv_cheq, wait) = match s {
             Some(s) => {
                 let rt = s.state.rt.lock();
@@ -87,7 +89,7 @@ async fn state() -> Json<Value> {
             "phase": phase, "label": if connected || phase != crate::bot::Phase::Offline { phase.label() } else if r.enabled { "czeka" } else { "wyłączony" },
             "reason": reason, "earned": e, "keys": k, "balance": bal, "dropped": dm, "dropped_keys": dk,
             "uptime": up, "ip": ip, "inv_keys": inv_keys, "inv_cheques": inv_cheq, "retry_in": wait,
-            "settings_done": r.settings_done,
+            "settings_done": r.settings_done, "connecting": connecting, "up_s": up_s,
         }));
     }
     drop(slots);

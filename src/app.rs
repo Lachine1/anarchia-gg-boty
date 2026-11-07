@@ -206,6 +206,11 @@ impl App {
         };
         println!("[{}] {}", if who.is_empty() { "*" } else { who }, msg);
         let mut l = self.logs.lock();
+        // same bot, same message within 3 s (window resent by the server): keep one line
+        let now = now_ms();
+        if l.iter().rev().take(8).any(|x| x.who == who && x.msg == msg && now.saturating_sub(x.t) < 3000) {
+            return;
+        }
         l.push_back(LogLine { id, t: now_ms(), who: who.to_string(), msg, lvl });
         while l.len() > 3000 {
             l.pop_front();
