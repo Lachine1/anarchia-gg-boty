@@ -23,9 +23,17 @@ extern "system" {
     fn K32GetProcessMemoryInfo(h: isize, p: *mut PROCESS_MEMORY_COUNTERS, cb: u32) -> i32;
     fn GetConsoleWindow() -> isize;
     fn GetConsoleProcessList(list: *mut u32, count: u32) -> u32;
+    fn AttachConsole(pid: u32) -> i32;
     fn OpenProcess(access: u32, inherit: i32, pid: u32) -> isize;
     fn GetExitCodeProcess(h: isize, code: *mut u32) -> i32;
     fn CloseHandle(h: isize) -> i32;
+}
+
+/// GUI-subsystem exe started from cmd/PowerShell with --headless: print into that terminal.
+pub fn attach_parent_console() {
+    unsafe {
+        AttachConsole(u32::MAX); // ATTACH_PARENT_PROCESS
+    }
 }
 
 pub fn process_alive(pid: u32) -> bool {

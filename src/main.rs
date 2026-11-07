@@ -1,4 +1,5 @@
 // Copyright (c) 2026 lachine. AGPL v3 + Commons Clause - see LICENSE.md
+#![cfg_attr(windows, windows_subsystem = "windows")]
 //! anarchia-boty v2 — lekkie boty AFK dla anarchia.gg (azalea, 1.21.4).
 
 mod app;
@@ -96,6 +97,10 @@ fn deadlock_watch() {
 /// Parent process: keeps the bot process alive (restarts on crash/deadlock) and owns the window.
 fn guardian(args: &Args) -> anyhow::Result<()> {
     use std::process::Command;
+    #[cfg(windows)]
+    if args.headless {
+        win::attach_parent_console();
+    }
     let exe = std::env::current_exe()?;
     let bind = if args.bind.port() == 0 {
         let l = std::net::TcpListener::bind((args.bind.ip(), 0))?;
@@ -104,11 +109,12 @@ fn guardian(args: &Args) -> anyhow::Result<()> {
         args.bind
     };
     let me = std::process::id().to_string();
+    let headless = args.headless;
     let spawn = move || {
         let mut c = Command::new(&exe);
         c.arg("--child").arg("--bind").arg(bind.to_string()).env("ANARCHIA_PARENT", &me);
         #[cfg(windows)]
-        {
+        if !headless {
             use std::os::windows::process::CommandExt;
             c.creation_flags(0x0800_0000); // CREATE_NO_WINDOW: the bot process never shows a console
         }
@@ -117,7 +123,6 @@ fn guardian(args: &Args) -> anyhow::Result<()> {
     let child = std::sync::Arc::new(parking_lot::Mutex::new(spawn()?));
     let c2 = child.clone();
     let spawn2 = spawn.clone();
-    let headless = args.headless;
     std::thread::spawn(move || loop {
         std::thread::sleep(std::time::Duration::from_secs(2));
         let mut ch = c2.lock();
@@ -146,7 +151,10 @@ fn guardian(args: &Args) -> anyhow::Result<()> {
             }
             t
         };
-        ui::run(&format!("http://127.0.0.1:{}/?t={token}", bind.port()), || {});
+        let ch = child.clone();
+        ui::run(&format!("http://127.0.0.1:{}/?t={token}", bind.port()), move || {
+            let _ = ch.lock().kill();
+        });
     }
     let _ = child.lock().kill();
     Ok(())

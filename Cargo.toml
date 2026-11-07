@@ -39,7 +39,12 @@ opt-level = 2
 exclude = ["vendor"]
 
 [patch.crates-io]
+webview2-com-sys = { path = "vendor/webview2-com-sys" }
 simdnbt = { path = "vendor/simdnbt" }
 
 [dev-dependencies]
 simdnbt = "0.6"
+
+[target.'cfg(windows)'.dependencies]
+wry = { version = "0.51", default-features = false, features = ["os-webview"] }
+tao = { version = "0.33", default-features = false, features = ["rwh_06"] }

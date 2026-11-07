@@ -10,10 +10,29 @@ use hickory_resolver::TokioAsyncResolver;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::net::TcpStream;
 
+/// Same nameservers, TCP transport only.
+fn tcp_only(cfg: ResolverConfig) -> ResolverConfig {
+    use hickory_resolver::config::{NameServerConfig, Protocol};
+    let mut out = ResolverConfig::from_parts(cfg.domain().cloned(), cfg.search().to_vec(), vec![]);
+    let mut seen = std::collections::HashSet::new();
+    for ns in cfg.name_servers() {
+        if seen.insert(ns.socket_addr) {
+            out.add_name_server(NameServerConfig::new(ns.socket_addr, Protocol::Tcp));
+        }
+    }
+    out
+}
+
+fn cloudflare() -> TokioAsyncResolver {
+    TokioAsyncResolver::tokio(tcp_only(ResolverConfig::cloudflare()), ResolverOpts::default())
+}
+
 fn resolver() -> TokioAsyncResolver {
-    // system config first (respects local DNS), fall back to Cloudflare (Termux/Android has no resolv.conf)
-    TokioAsyncResolver::tokio_from_system_conf()
-        .unwrap_or_else(|_| TokioAsyncResolver::tokio(ResolverConfig::cloudflare(), ResolverOpts::default()))
+    // system DNS (falls back to Cloudflare on Termux/Android where there is no resolv.conf)
+    match hickory_resolver::system_conf::read_system_conf() {
+        Ok((cfg, opts)) if !cfg.name_servers().is_empty() => TokioAsyncResolver::tokio(tcp_only(cfg), opts),
+        _ => cloudflare(),
+    }
 }
 
 /// Resolve a Minecraft server address like vanilla: `_minecraft._tcp` SRV, then A record.
@@ -31,7 +50,7 @@ pub async fn resolve(server: &str) -> Result<SocketAddr> {
         let srv = match r.srv_lookup(format!("_minecraft._tcp.{host}.")).await {
             Ok(s) => Ok(s),
             Err(_) => {
-                r = TokioAsyncResolver::tokio(ResolverConfig::cloudflare(), ResolverOpts::default());
+                r = cloudflare();
                 r.srv_lookup(format!("_minecraft._tcp.{host}.")).await
             }
         };
@@ -44,7 +63,7 @@ pub async fn resolve(server: &str) -> Result<SocketAddr> {
     }
     let ips = match r.ipv4_lookup(format!("{target}.")).await {
         Ok(v) => v,
-        Err(_) => TokioAsyncResolver::tokio(ResolverConfig::cloudflare(), ResolverOpts::default())
+        Err(_) => cloudflare()
             .ipv4_lookup(format!("{target}."))
             .await
             .with_context(|| format!("brak rekordu A dla {target}"))?,
