@@ -1,4 +1,12 @@
 #!/bin/bash
+# zig cc wrapper for static musl builds; set ZIG or put zig on PATH.
+# zig ships its own musl crt + libc, so drop rustc's self-contained copies and flags zig rejects.
 args=()
-for a in "$@"; do case "$a" in --target=*|-lgcc_s) ;; *) args+=("$a");; esac; done
-exec /home/lachine/tools/zigwhl/ziglang/zig cc -target x86_64-linux-musl "${args[@]}"
+for a in "$@"; do
+  case "$a" in
+    --target=*|-lgcc_s|-Wl,--fix-cortex-a53-843419|-nodefaultlibs) ;;
+    */self-contained/*crt*.o|*/self-contained/libc.a|-lc) ;;
+    *) args+=("$a") ;;
+  esac
+done
+exec "${ZIG:-zig}" cc -target x86_64-linux-musl "${args[@]}"
